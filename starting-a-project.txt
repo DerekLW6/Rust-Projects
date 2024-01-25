@@ -1,0 +1,3 @@
+To create a new project, got to the terminal and type:
+
+cargo new {project name}
