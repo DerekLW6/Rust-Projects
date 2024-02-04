@@ -1,6 +1,8 @@
 use warp::Filter;
 use std::collections::HashMap;
 
+// Rust Candle Location - https://github.com/huggingface/candle?tab=readme-ov-file
+
 #[tokio::main]
 async fn main() {
     // Define a warp filter for the root path
