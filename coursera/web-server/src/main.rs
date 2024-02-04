@@ -10,12 +10,11 @@ async fn main() {
     let submit_form = warp::path!("submit" / "user")
         .and(warp::query::<HashMap<String, String>>())
         .map(|params: HashMap<String, String>| {
-            // Create a named variable to extend the lifetime of the temporary value
-            let default_name = "User".to_string();
-            let name = params.get("name").unwrap_or(&default_name);
+            // Get the user's query from the form submission
+            let user_query = params.get("name").cloned().unwrap_or_default();
 
-            // Respond with a greeting
-            warp::reply::html(format!("Hello, {}!", name))
+            // Response
+            warp::reply::html(format!("{}", user_query))
         });
 
     // Combine the root and form submission filters
@@ -32,13 +31,15 @@ fn html_form() -> String {
     r#"
     <html>
         <head>
-            <title>Rust Web Server</title>
+            <title>Rust Web Server For LLMs</title>
         </head>
         <body>
-            <h1>Welcome to the Rust Web Server</h1>
+            <h1>Welcome to the Rust Web Server For LLMs</h1>
             <form action="/submit/user" method="get">
-                <label for="name">Enter your name:</label>
-                <input type="text" id="name" name="name" required>
+                <label for="name">Enter your Query:</label>
+                <!-- Use the 'textarea' tag for a larger text box -->
+                <textarea id="name" name="name" rows="4" cols="50" required></textarea>
+                <br>
                 <button type="submit">Submit</button>
             </form>
         </body>
